@@ -5,12 +5,12 @@ const App = express();
 const pacientes =  [   
     { 
         DNI:'45907496W', 
-     firstName:'Aida', 
-     surname:'Fdz', 
-     direction:'Volta Redonda', 
-     localidad:'Aragon', 
-     cp:'15822', 
-     telf:'633878725' 
+        firstName:'Aida', 
+        surname:'Fdz', 
+        direction:'Volta Redonda', 
+        localidad:'Aragon', 
+        cp:'15822', 
+        telf:'633878725' 
     },    
 
     { 
@@ -46,7 +46,7 @@ const pacientes =  [
 // Dirección base endpoint 
 App.get('/',(req,res) => {   
     res.status(200).json ({   
-        message:[pacientes]           
+        message:pacientes           
     }) 
     //método get que devuelve los datos con un estado 200   
  //funciona como union del endpoint 
@@ -111,14 +111,15 @@ App.post('/',(req,res) => {
         })  
     })  
 
-    App.delete('/:DNI',(req,res) => { 
+    App.delete('/:DNI',(req,res) => {
+        console.log('pex') 
         res.set({'Set-Cookie': 'Test cookie'});  
         if(!req.params.DNI){  
             return res.status(400).json({  
                 message:'DNI param mandatory'  
             })  
         } 
-        const pacientesIndex = paciente.findIndex(elem =>{  
+        const pacientesIndex = pacientes.findIndex(elem =>{  
             return elem.DNI === req.params.DNI;  
        })  
        if (pacientesIndex < 0) {  
@@ -126,7 +127,7 @@ App.post('/',(req,res) => {
                message:'No se encontro ningun DNI con este numero'  
            })  
        }  
-       const deletedpacientes = paciente.splice(pacientesIndex,1);  
+       const deletedpacientes = pacientes.splice(pacientesIndex,1);  
        res.status(200).json({  
         message:'ok',  
         deletedpacientes  
