@@ -53,14 +53,15 @@ App.get('/',(req,res) => {
  })   
 
 App.get('/:DNI',(req,res) => { 
+    console.log('dia')
     res.set({'Set-Cookie': 'Test cookie'})  
-    if(!req.query.DNI) {  
+    if(!req.params.DNI) {  
         return res.status(400).json({  
             message:'Incorrect query params'  
         })  
     }  
 
-    const selectpacientes =pacientes.filter(elem => elem.DNI === req.query.DNI);  
+    const selectpacientes =pacientes.filter(elem => elem.DNI === req.params.DNI);  
     console.log(selectpacientes)  
     res.status(200).json({  
         message:'ok',  
@@ -77,16 +78,22 @@ App.post('/',(req,res) => {
         if(!req.body) {  
             return res.status(400).json({message:'DNI data mandatory'  
         })  
-        }     // Obten la información recibida en la request y guardala en /paciente 
+        }   
+          // Obten la información recibida en la request y guardala en /paciente 
+        if(req.body.DNI.length > 1) {
+
         pacientes.push(req.body);  
-        res.status(200).json({  
+        return res.status(200).json({  
             message:'ok',  
-            paciente:pacientes[paciente.length -1]  
-        })  
+            paciente:pacientes[pacientes.length -1]  
+        })  }
+        return res.status(400).json({message:'DNI data mandatory'})
     })  
     //metodo put para actualizar datos según el dni 
     App.put('/:DNI',(req,res) => {  
+        console.log('hola');
         res.set({'Set-Cookie': 'Test cookie'}) 
+       
         if(!req.body || !req.params.DNI) {  
             return res.status(400).json({  
                 message:'paciente o DNI param mandatory'  
